@@ -1,4 +1,4 @@
-﻿namespace ClassRoomBackEnd.Models
+﻿namespace EventsBackEnd.Models
 {
     public class LoginRequest
     {

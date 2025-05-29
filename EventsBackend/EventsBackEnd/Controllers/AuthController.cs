@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ClassRoomBackEnd.Models;
-namespace ClassRoomBackEnd.Controllers
+using EventsBackEnd.Models;
+namespace EventsBackEnd.Controllers
 {
 
     [ApiController]

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using ClassRoomBackEnd.Data;
-using ClassRoomBackEnd.Models;
+using EventsBackEnd.Data;
+using EventsBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,7 +48,7 @@ app.Run();
 async Task SeedRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
 {
     // Seed roles
-    string[] roles = { "Admin", "Teacher", "Learner" };
+    string[] roles = { "Admin", "Host", "Attendee" }; // Updated roles
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
@@ -66,30 +66,33 @@ async Task SeedRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<
     };
     await CreateUser(userManager, admin, "Admin@123", "Admin");
 
-    // Seed teacher user
-    var teacher = new ApplicationUser
+    // Seed host user (replaces Teacher)
+    var host = new ApplicationUser
     {
-        UserName = "teacher@test.com",
-        Email = "teacher@test.com",
-        Role = "Teacher"
+        UserName = "host@test.com", // New Host user
+        Email = "host@test.com",
+        Role = "Host"
     };
-    await CreateUser(userManager, teacher, "Teacher@123", "Teacher");
+    await CreateUser(userManager, host, "Host@123", "Host"); // New password and role
 
-    // Seed learner user
-    var learner = new ApplicationUser
+    // Seed attendee user (replaces Learner)
+    var attendee = new ApplicationUser
     {
-        UserName = "learner@test.com",
-        Email = "learner@test.com",
-        Role = "Learner"
+        UserName = "attendee@test.com", // New Attendee user
+        Email = "attendee@test.com",
+        Role = "Attendee"
     };
-    await CreateUser(userManager, learner, "Learner@123", "Learner");
+    await CreateUser(userManager, attendee, "Attendee@123", "Attendee"); // New password and role
 }
 
 async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user, string password, string role)
 {
     if (await userManager.FindByEmailAsync(user.Email) == null)
     {
-        await userManager.CreateAsync(user, password);
-        await userManager.AddToRoleAsync(user, role);
+        var result = await userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, role);
+        }
     }
 }

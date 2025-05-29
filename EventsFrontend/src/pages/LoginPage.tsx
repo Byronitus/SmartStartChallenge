@@ -12,7 +12,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/classrooms');
+      navigate('/events');
     } catch (error) {
       alert('Login failed');
     }

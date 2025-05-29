@@ -1,6 +1,6 @@
-﻿namespace ClassRoomBackEnd.Models
+﻿namespace EventsBackEnd.Models
 {
-    public class Classroom
+    public class Event
     {
         public int Id { get; set; }
 
